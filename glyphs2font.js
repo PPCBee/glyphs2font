@@ -145,30 +145,60 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += "    font-variant:    normal;\n"
         css += "}\n"
         css += "\n"
-        css += "[class^=\"" + cfg.font.prefix + "-\"]:before,\n"
-        css += "[class*=\" " + cfg.font.prefix + "-\"]:before {\n"
-        css += "    font-family:     \"" + cfg.font.name + "\";\n"
-        css += "    font-style:      normal;\n"
-        css += "    font-weight:     normal;\n"
-        css += "    font-stretch:    normal;\n"
-        css += "    font-variant:    normal;\n"
-        css += "    font-size:       inherit;\n"
-        css += "    text-rendering:  auto;\n"
-        css += "    display:         inline-block;\n"
-        css += "    transform:       translate(0, 0);\n"
-        css += "    speak:           none;\n"
-        css += "    text-decoration: inherit;\n"
-        css += "    text-align:      center;\n"
-        css += "    text-transform:  none;\n"
-        css += "    -webkit-font-smoothing:  antialiased;\n"
-        css += "    -moz-osx-font-smoothing: grayscale;\n"
-        css += "}\n"
+
+        css += '@media screen and (-webkit-min-device-pixel-ratio:0) {\n'
+        css += '  @font-face {\n'
+        css += '    font-family: "'+cfg.font.name+'";\n'
+        css += '    src: font-url("'+relto(cfg.font.svg, cfg.font.css)+'#'+cfg.font.name+'") format("svg");\n'
+        css += '  }\n'
+        css += '}\n'
         css += "\n"
+
+        css += "[data-icon]:before { content: attr(data-icon); }\n\n"
+
+        css += '@mixin fontcustom {\n'
+        css += '  display: inline-block;\n'
+        css += '  font-family: "'+cfg.font.name+'";\n'
+        css += '  font-style: normal;\n'
+        css += '  font-weight: normal;\n'
+        css += '  font-variant: normal;\n'
+        css += '  line-height: 1;\n'
+        css += '  text-decoration: inherit;\n'
+        css += '  text-rendering: optimizeLegibility;\n'
+        css += '  text-transform: none;\n'
+        css += '  -moz-osx-font-smoothing: grayscale;\n'
+        css += '  -webkit-font-smoothing: antialiased;\n'
+        css += '  font-smoothing: antialiased;\n'
+        css += '}\n'
+        css += "\n"
+
         cfg.glyphs.forEach(function (glyph) {
-            css += "." + cfg.font.prefix + "-" + glyph.name + ":before {\n"
-            css += "    content:         \"\\" + glyph.code.toString(16) + "\";\n"
-            css += "}\n"
+            css += "." + cfg.font.prefix + "-" + glyph.name + ":before,\n"
         })
+        css += '[data-icon]:before, %fontcustom {\n'
+        css += '  display: inline-block;'
+        css += '  font-family: "'+cfg.font.name+'";'
+        css += '  font-style: normal;'
+        css += '  font-weight: normal;'
+        css += '  font-variant: normal;'
+        css += '  line-height: 1;'
+        css += '  text-decoration: inherit;'
+        css += '  text-rendering: optimizeLegibility;'
+        css += '  text-transform: none;'
+        css += '  -moz-osx-font-smoothing: grayscale;'
+        css += '  -webkit-font-smoothing: antialiased;'
+        css += '  font-smoothing: antialiased;'
+        css += '}'
+
+        cfg.glyphs.forEach(function (glyph) {
+            css += "." + cfg.font.prefix + "-" + glyph.name + ":before { content: \"\\" + glyph.code.toString(16) + "\"; }\n"
+        })
+        css += "\n"
+
+        cfg.glyphs.forEach(function (glyph) {
+            css += "$font-" + cfg.font.prefix + "-" + glyph.name + ": \"\\" + glyph.code.toString(16) + "\";\n"
+        })
+
         css += "\n"
         fs.writeFileSync(cwdto(cfg.font.css, cfgfile), css, "utf8")
     }
