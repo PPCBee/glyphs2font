@@ -127,15 +127,15 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += "    font-family:     \"" + cfg.font.name + "\";\n"
         var src = []
         if (cfg.font.eot)
-            src.push("url(\"" + relto(cfg.font.eot, cfg.font.css) + "?#iefix\") format(\"embedded-opentype\")")
+            src.push("font-url(\"" + relto(cfg.font.eot, cfg.font.eot) + "?#iefix\") format(\"embedded-opentype\")")
         if (cfg.font.woff)
-            src.push("url(\"" + relto(cfg.font.woff, cfg.font.css) + "\") format(\"woff\")")
+            src.push("font-url(\"" + relto(cfg.font.woff, cfg.font.woff) + "\") format(\"woff\")")
         if (cfg.font.svg)
-            src.push("url(\"" + relto(cfg.font.svg, cfg.font.css) + "\") format(\"svg\")")
+            src.push("font-url(\"" + relto(cfg.font.svg, cfg.font.svg) + "\") format(\"svg\")")
         if (cfg.font.ttf)
-            src.push("url(\"" + relto(cfg.font.ttf, cfg.font.css) + "\") format(\"truetype\")")
+            src.push("font-url(\"" + relto(cfg.font.ttf, cfg.font.ttf) + "\") format(\"truetype\")")
         if (cfg.font.eot) {
-            css += "    src:             url(\"" + relto(cfg.font.eot, cfg.font.css) + "\");\n"
+            css += "    src:             url(\"" + relto(cfg.font.eot, cfg.font.eot) + "\");\n"
             src.unshift("local(\"*\")")
         }
         css += "    src:             " + src.join(",\n                     ") + ";\n"
@@ -176,19 +176,20 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
             css += "." + cfg.font.prefix + "-" + glyph.name + ":before,\n"
         })
         css += '[data-icon]:before, %fontcustom {\n'
-        css += '  display: inline-block;'
-        css += '  font-family: "'+cfg.font.name+'";'
-        css += '  font-style: normal;'
-        css += '  font-weight: normal;'
-        css += '  font-variant: normal;'
-        css += '  line-height: 1;'
-        css += '  text-decoration: inherit;'
-        css += '  text-rendering: optimizeLegibility;'
-        css += '  text-transform: none;'
-        css += '  -moz-osx-font-smoothing: grayscale;'
-        css += '  -webkit-font-smoothing: antialiased;'
-        css += '  font-smoothing: antialiased;'
-        css += '}'
+        css += '  display: inline-block;\n'
+        css += '  font-family: "'+cfg.font.name+'";\n'
+        css += '  font-style: normal;\n'
+        css += '  font-weight: normal;\n'
+        css += '  font-variant: normal;\n'
+        css += '  line-height: 1;\n'
+        css += '  text-decoration: inherit;\n'
+        css += '  text-rendering: optimizeLegibility;\n'
+        css += '  text-transform: none;\n'
+        css += '  -moz-osx-font-smoothing: grayscale;\n'
+        css += '  -webkit-font-smoothing: antialiased;\n'
+        css += '  font-smoothing: antialiased;\n'
+        css += '}\n'
+        css += "\n"
 
         cfg.glyphs.forEach(function (glyph) {
             css += "." + cfg.font.prefix + "-" + glyph.name + ":before { content: \"\\" + glyph.code.toString(16) + "\"; }\n"
@@ -196,7 +197,7 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += "\n"
 
         cfg.glyphs.forEach(function (glyph) {
-            css += "$font-" + cfg.font.prefix + "-" + glyph.name + ": \"\\" + glyph.code.toString(16) + "\";\n"
+            css += "$font-" + cfg.font.name + "-" + glyph.name + ": \"\\" + glyph.code.toString(16) + "\";\n"
         })
 
         css += "\n"
