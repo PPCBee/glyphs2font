@@ -136,7 +136,6 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
             src.push("font-url(\"" + relto(cfg.font.ttf, cfg.font.ttf) + "\") format(\"truetype\")")
         if (cfg.font.eot) {
             css += "    src:             url(\"" + relto(cfg.font.eot, cfg.font.eot) + "\");\n"
-            src.unshift("local(\"*\")")
         }
         css += "    src:             " + src.join(",\n                     ") + ";\n"
         css += "    font-style:      normal;\n"
@@ -149,7 +148,7 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += '@media screen and (-webkit-min-device-pixel-ratio:0) {\n'
         css += '  @font-face {\n'
         css += '    font-family: "'+cfg.font.name+'";\n'
-        css += '    src: font-url("'+relto(cfg.font.svg, cfg.font.css)+'#'+cfg.font.name+'") format("svg");\n'
+        css += '    src: font-url("'+relto(cfg.font.svg, cfg.font.svg)+'#'+cfg.font.name+'") format("svg");\n'
         css += '  }\n'
         css += '}\n'
         css += "\n"
