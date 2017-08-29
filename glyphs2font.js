@@ -127,15 +127,15 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += "    font-family:     \"" + cfg.font.name + "\";\n"
         var src = []
         if (cfg.font.eot)
-            src.push("font-url(\"" + relto(cfg.font.eot, cfg.font.eot) + "?#iefix\") format(\"embedded-opentype\")")
+            src.push("url(\"./fonts/" + relto(cfg.font.eot, cfg.font.eot) + "?#iefix\") format(\"embedded-opentype\")")
         if (cfg.font.woff)
-            src.push("font-url(\"" + relto(cfg.font.woff, cfg.font.woff) + "\") format(\"woff\")")
+            src.push("url(\"./fonts/" + relto(cfg.font.woff, cfg.font.woff) + "\") format(\"woff\")")
         if (cfg.font.svg)
-            src.push("font-url(\"" + relto(cfg.font.svg, cfg.font.svg) + "\") format(\"svg\")")
+            src.push("url(\"./fonts/" + relto(cfg.font.svg, cfg.font.svg) + "\") format(\"svg\")")
         if (cfg.font.ttf)
-            src.push("font-url(\"" + relto(cfg.font.ttf, cfg.font.ttf) + "\") format(\"truetype\")")
+            src.push("url(\"./fonts/" + relto(cfg.font.ttf, cfg.font.ttf) + "\") format(\"truetype\")")
         if (cfg.font.eot) {
-            css += "    src:             url(\"" + relto(cfg.font.eot, cfg.font.eot) + "\");\n"
+            css += "    src:             url(\"./fonts/" + relto(cfg.font.eot, cfg.font.eot) + "\");\n"
         }
         css += "    src:             " + src.join(",\n                     ") + ";\n"
         css += "    font-style:      normal;\n"
@@ -148,7 +148,7 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         css += '@media screen and (-webkit-min-device-pixel-ratio:0) {\n'
         css += '  @font-face {\n'
         css += '    font-family: "'+cfg.font.name+'";\n'
-        css += '    src: font-url("'+relto(cfg.font.svg, cfg.font.svg)+'#'+cfg.font.name+'") format("svg");\n'
+        css += '    src: url("./fonts/'+relto(cfg.font.svg, cfg.font.svg)+'#'+cfg.font.name+'") format("svg");\n'
         css += '  }\n'
         css += '}\n'
         css += "\n"
